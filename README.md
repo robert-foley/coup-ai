@@ -1,2 +1,2 @@
 # coup-ai
-Reinforcement Learning for Coup board game
+Reinforcement Learning for Coup card game
