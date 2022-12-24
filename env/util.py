@@ -7,3 +7,5 @@ def print_game(state: GameState):
 
     print(f"Visible Cards: {state.visible_cards}")
     print(f"Turn Type: {state.turn_type}")
+    print(f"Action Taken: {state.action_taken}")
+    

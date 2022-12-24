@@ -1,18 +1,3 @@
-<<<<<<< HEAD
-from enum import Enum
-from random import shuffle
-
-class Card(Enum):
-    """ Enum representing types of cards"""
-    DUKE = "duke"
-    ASSASSIN = "assassin"
-    AMBASSADOR = "ambassador"
-    CAPTAIN = "captain"
-    CONTESSA = "contessa"
-
-class State():
-=======
-import gymnasium as gym
 from enum import Enum
 from random import shuffle
 from typing import Generator
@@ -32,23 +17,11 @@ class TurnType(Enum):
     def __str__(self):
         return self.value
 
-class GameState(gym.Env):
->>>>>>> b86aa24 (Start writing game state)
+class GameState():
     """ Represents the current state of a game of Coup """
     num_players: int
     deck: list[Card]
     player_cards: dict[int, list[Card]]
-<<<<<<< HEAD
-    player_coins: dict[int, int]
-    
-    def __init__(self, num_players: int = 6):
-        self.num_players = num_players
-        self.player_coins = {num: 2 for num in range(self.num_players)}
-        self.player_cards = {num: [] for num in range(self.num_players)}
-        self._deal_cards()
-
-    def _deal_cards(self):
-=======
     visible_cards: list[Card]
     player_coins: dict[int, int]
     turn_type: TurnType
@@ -60,20 +33,12 @@ class GameState(gym.Env):
 
     def _deal_cards(self) -> None:
         """ Handle deck/player card initialization """
->>>>>>> b86aa24 (Start writing game state)
         deck = [Card.DUKE] * 3 + [Card.ASSASSIN] * 3 + [Card.AMBASSADOR] * 3 + [Card.CAPTAIN] * 3 + [Card.CONTESSA] * 3
         shuffle(deck)
         for player in range(self.num_players):
             self.player_cards[player].append(deck.pop())
             self.player_cards[player].append(deck.pop())
 
-<<<<<<< HEAD
-
-
-
-
-
-=======
     def init(self) -> None:
         """ Initialize the game state """
         self.player_coins = {num: 2 for num in range(self.num_players)}
@@ -90,7 +55,6 @@ class GameState(gym.Env):
     def game_over(self) -> bool:
         """ Return True if the game is over """
         return any(len(cards) == 0 for cards in self.player_cards.values())
-
 
     def play(self) -> Generator[int]:
         """ Play the game """
@@ -110,7 +74,7 @@ class GameState(gym.Env):
                         challenge = yield challenge_player
                         assert isinstance(challenge, bool)
                         if challenge:
-                            challenge_successful = not is_honest_action(self.action_taken.type, self.player_cards[current_player])
+                            challenge_successful = not is_honest_action(action.type, self.player_cards[current_player])
                             self.turn_type = TurnType.LOSE_CARD
                             if challenge_successful:
                                 successful_challenge = True
@@ -136,7 +100,7 @@ class GameState(gym.Env):
                         # STEP 3a: CA CHALLENGE
                         challenge = yield current_player
                         if challenge:
-                            challenge_successful = not is_honest_counteraction(self.action_taken.type, self.player_cards[current_player])
+                            challenge_successful = not is_honest_counteraction(action.type, self.player_cards[current_player])
                             self.turn_type = TurnType.LOSE_CARD
                             if challenge_successful:
                                 lost_card = yield block_player
@@ -185,5 +149,4 @@ class GameState(gym.Env):
                 self.player_coins[action.target_player] -= 2
 
             current_player = self._next_player(current_player)
->>>>>>> b86aa24 (Start writing game state)
 
