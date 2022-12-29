@@ -1,6 +1,6 @@
 from enum import Enum
 from random import shuffle
-from typing import Generator
+from typing import Generator, Any
 
 from .action import Action, ActionType, is_honest_action, is_blockable_action, is_honest_counteraction, is_challengeable_action
 from .card import Card
@@ -56,7 +56,7 @@ class GameState():
         """ Return True if the game is over """
         return any(len(cards) == 0 for cards in self.player_cards.values())
 
-    def play(self) -> Generator[int]:
+    def play(self) -> Generator[int, Any, None]:
         """ Play the game """
         current_player = 0
         while not self.game_over():
