@@ -1,3 +1,4 @@
+from enum import Enum
 class Card(Enum):
     """ Enum representing types of cards"""
     DUKE = "duke"
