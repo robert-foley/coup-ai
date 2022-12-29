@@ -29,9 +29,17 @@ class CoupDiscordBot:
 		loop.create_task(self._discord_client.start(os.environ.get('DISCORD_TOKEN')))
 		tree = discord.app_commands.CommandTree(self._discord_client)
 
-		@tree.command(name = "new_game", description = "Create new Coup game", guild=discord.Object(id=GUILD_ID)) #Add the guild ids in which the slash command will appear. If it should be in all, remove the argument, but note that it will take some time (up to an hour) to register the command if it's for all guilds.
+		@tree.command(name = "new_game", description = "Create a new Coup game & enter lobby phase", guild=discord.Object(id=GUILD_ID)) #Add the guild ids in which the slash command will appear. If it should be in all, remove the argument, but note that it will take some time (up to an hour) to register the command if it's for all guilds.
+		async def new_game(interaction):
+			await self.new_game(interaction)
+
+		@tree.command(name = "join_game", description = "Join existing Coup game", guild=discord.Object(id=GUILD_ID)) #Add the guild ids in which the slash command will appear. If it should be in all, remove the argument, but note that it will take some time (up to an hour) to register the command if it's for all guilds.
 		async def join_game(interaction):
 			await self.join_game(interaction)
+
+		@tree.command(name = "start_game", description = "Start Coup game with registerd players", guild=discord.Object(id=GUILD_ID)) #Add the guild ids in which the slash command will appear. If it should be in all, remove the argument, but note that it will take some time (up to an hour) to register the command if it's for all guilds.
+		async def start_game(interaction):
+			await self.start_game(interaction)
 
 		@self._discord_client.event
 		async def on_ready():
